@@ -34,10 +34,9 @@ public class Main {
 
         String nCuenta = null, nCuenta1 = null;
         int clave, monto = 0, j = 0, h = 0;
-        Ventana v =new Ventana();
+        Ventana v = new Ventana();
         v.setVisible(true);
-        
-        
+
         while (h == 0) {
             System.out.println("Ingrese el numero de la tarjeta asociada a su cuenta");
             nCuenta = sc.nextLine();
@@ -49,7 +48,7 @@ public class Main {
         System.out.println("Ingrese la opcion que desea realizar");
         System.out.println("1. Transaccion\n2. Consulta\n3. Retiro");
         int opcion = sc.nextInt();
-        
+
         switch (opcion) {
             case 1:
                 h = 0;
@@ -163,6 +162,6 @@ public class Main {
                 System.out.println("Fecha: " + convertido);
                 break;
         }
-                
+
     }
 }

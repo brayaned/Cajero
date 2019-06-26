@@ -21,14 +21,14 @@ public class InterfazClave extends JFrame {
     public JPanel panel;
     JLabel e1 = new JLabel();
     JLabel e2 = new JLabel();
-    JTextArea ta=new JTextArea();
+    JTextArea ta = new JTextArea();
     JTextField t1 = new JTextField();
     JButton b1 = new JButton("Verificar");
     JButton b2 = new JButton("Atras");
     JButton b3 = new JButton("Finalizar");
     String nc;
-    
-    int monto,j=0,clave;
+
+    int monto, j = 0, clave;
     Conexion conexion = new Conexion();
     Connection con = conexion.realziarConexion();
     PreparedStatement ps = null;
@@ -42,15 +42,16 @@ public class InterfazClave extends JFrame {
     Cliente cliente = new Cliente();
     Cliente cliente2 = new Cliente();
 
-    public InterfazClave(String nC,int m) {
+    public InterfazClave(String nC, int m) {
         setSize(700, 500);
         setTitle("Consulta");
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(700, 500));
         iniciarComponentes();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        nc=nC;
-        monto=m;
+        nc = nC;
+        monto = m;
+        tr.verificarCuenta(j, cn, cliente, nC);
     }
 
     private void iniciarComponentes() {
@@ -80,13 +81,11 @@ public class InterfazClave extends JFrame {
         e2.setHorizontalAlignment(SwingConstants.LEFT);
         e2.setFont(new Font("Impact", Font.PLAIN, 15));
         panel.add(e2);
-        
-        ta.setBounds(300,100,300,300);
+
+        ta.setBounds(300, 100, 300, 300);
         ta.setFont(new Font("Impact", Font.PLAIN, 15));
         panel.add(ta);
-        
-        
-       
+
     }
 
     private void colocarCampos() {
@@ -96,96 +95,85 @@ public class InterfazClave extends JFrame {
     }
 
     private void colocarBotones() {
-        
+
         b1.setBounds(80, 255, 120, 30);
         b1.setFont(new Font("Impact", Font.PLAIN, 20));
         panel.add(b1);
-        
+
         b2.setBounds(80, 430, 100, 25);
         b2.setFont(new Font("Impact", Font.PLAIN, 18));
         panel.add(b2);
-        
+
         b3.setBounds(550, 430, 100, 25);
         b3.setFont(new Font("Impact", Font.PLAIN, 18));
         panel.add(b3);
 
-        ActionListener ingresar;
-        ingresar = new ActionListener() {
-            
+        ActionListener ingresar = new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent q) {
                 try {
-                    if (monto > cn.getSaldo()) {
-                        e2.setText("No fue posible realizar el retiro, saldo insuficiente ");
-                    } else {
-                        j = 1;
-                    }
+                    if (j < 3 && j != -1) {
+                        clave = Integer.parseInt(t1.getText());
+                        j = tr.verificarClave(j, nc, clave);
+                        t1.setText("");
+                    } 
                     
-                    j=0;
-                    while (j <= 3) {
-                        if (j < 3) {
-                            
-                            clave = Integer.parseInt(t1.getText());
-                            j = tr.verificarClave(j, nc, clave);
-                        } else {
-                            e2.setText("¡EXCEDIDO EL NUMERO DE INTENTOS POSIBLES!");
-                            
+                    if (j == -1) {
+                        tr.setNumeroCuenta(nc);
+                        tr.setCosto(bn.getCostoTransaccion());
+                        tr.setDescripcion("Retiro de efectivo");
+                        DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String convertido = fecha.format(date);
+                        tr.setFecha(convertido);
+                        tr.setMonto(monto);
+
+                        System.out.println("Imprimiendo factura...\n\n");
+                        int sal = tr.actualizarDatos(nc, monto);
+                        tr.insertarDatos(tr);
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+
                         }
+                        String r;
+                        r = "\nBanco: " + bn.getNombreBanco()
+                                + "\nNumero de Cuenta: " + tr.getNumeroCuenta()
+                                + "\nTitular de la Cuenta: " + cliente.getNombre()
+                                + "\nTipo de Transaccion: " + tr.getDescripcion()
+                                + "\nMonto de la transaccion: " + tr.getMonto()
+                                + "\ncosto de Transaccion: " + tr.getCosto()
+                                + "\nSaldo disponible: " + sal
+                                + "\nFecha: " + convertido;
+                        ta.setText(r);
+                        e2.setText(null);
+                    } 
+                    
+                    if (j == 3 && j != -1) {
+                        b1.setEnabled(false);
                     }
-                    
-                    tr.setNumeroCuenta(nc);
-                    tr.setCosto(bn.getCostoTransaccion());
-                    tr.setDescripcion("Retiro de efectivo");
-                    DateFormat fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String convertido = fecha.format(date);
-                    tr.setFecha(convertido);
-                    tr.setMonto(monto);
-                    
-                    System.out.println("Imprimiendo factura...\n\n");
-                    int sal = tr.actualizarDatos(nc, monto);
-                    tr.insertarDatos(tr);
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        
-                    }
-                    String r;
-                    r="\nBanco: " + bn.getNombreBanco()+
-                            "\nNumero de Cuenta: " + tr.getNumeroCuenta()+
-                            "\nTitular de la Cuenta: " + cn.getTitutar()+
-                            "\nTipo de Transaccion: " + tr.getDescripcion()+
-                            "\nMonto de la transaccion: " + tr.getMonto()+
-                            "\ncosto de Transaccion: " + tr.getCosto()+
-                            "\nSaldo disponible: " + sal+
-                            "\nFecha: " + convertido;
-                    ta.setText(r);
-                    e2.setText(null);
-                    
-                    
                 } catch (SQLException ex) {
                     Logger.getLogger(InterfazClave.class.getName()).log(Level.SEVERE, null, ex);
-                    
+
                 }
-                
-                
+
             }
         };
         b1.addActionListener(ingresar);
-        
-        ActionListener atras=new ActionListener() {
+
+        ActionListener atras = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent q) {
                 setVisible(false);
-                InterfazMenu im=new InterfazMenu(nc);
+                InterfazMenu im = new InterfazMenu(nc, cliente, cn);
                 im.setVisible(true);
-                
+
             }
         };
         b2.addActionListener(atras);
-        
-        
-        ActionListener finalizar=new ActionListener() {
+
+        ActionListener finalizar = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -41,7 +41,7 @@ public class InterfazRetiro extends JFrame {
     Cliente cliente = new Cliente();
     Cliente cliente2 = new Cliente();
 
-    public InterfazRetiro(String nC) {
+    public InterfazRetiro(String nC, Cliente cl, Cuenta cuenta) {
         setSize(700, 500);
         setTitle("Retiro");
         setLocationRelativeTo(null);
@@ -49,7 +49,8 @@ public class InterfazRetiro extends JFrame {
         iniciarComponentes();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         nc = nC;
-        
+        cliente = cl;
+        cn = cuenta;
     }
 
     private void iniciarComponentes() {
@@ -129,82 +130,85 @@ public class InterfazRetiro extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                monto=400000;    
-                InterfazClave ic=new InterfazClave(nc,monto);
+                monto = 400000;
+                InterfazClave ic = new InterfazClave(nc, monto);
                 setVisible(false);
                 ic.setVisible(true);
             }
         };
         b1.addActionListener(br1);
 
-        
         ActionListener br4 = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                monto=200000;    
-                InterfazClave ic=new InterfazClave(nc,monto);
+                monto = 200000;
+                InterfazClave ic = new InterfazClave(nc, monto);
                 setVisible(false);
                 ic.setVisible(true);
-                
+
             }
-        };b4.addActionListener(br4);
-        
-        
+        };
+        b4.addActionListener(br4);
+
         ActionListener br5 = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                monto=100000;    
-                InterfazClave ic=new InterfazClave(nc,monto);
+                monto = 100000;
+                InterfazClave ic = new InterfazClave(nc, monto);
                 setVisible(false);
                 ic.setVisible(true);
             }
-        };b5.addActionListener(br5);
-        
-        
+        };
+        b5.addActionListener(br5);
+
         ActionListener br6 = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                monto=50000;    
-                InterfazClave ic=new InterfazClave(nc,monto);
+                monto = 50000;
+                InterfazClave ic = new InterfazClave(nc, monto);
                 setVisible(false);
                 ic.setVisible(true);
             }
-        };b6.addActionListener(br6);
-        
-        
+        };
+        b6.addActionListener(br6);
+
         ActionListener br7 = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                monto=20000;    
-                InterfazClave ic=new InterfazClave(nc,monto);
+                monto = 20000;
+                InterfazClave ic = new InterfazClave(nc, monto);
                 setVisible(false);
                 ic.setVisible(true);
             }
-        };b7.addActionListener(br7);
-        
-        
+        };
+        b7.addActionListener(br7);
+
         ActionListener br8 = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                monto=Integer.parseInt(t1.getText());
-                InterfazClave ic=new InterfazClave(nc,monto);
-                setVisible(false);
-                ic.setVisible(true);
+                monto = Integer.parseInt(t1.getText());
+                if (monto > cn.getSaldo()-5000) {
+                    JOptionPane.showMessageDialog(null, "No fue posible realizar el retiro, saldo insuficiente ");
+                } else {
+                    InterfazClave ic = new InterfazClave(nc, monto);
+                    setVisible(false);
+                    ic.setVisible(true);
+                }
             }
-        };b8.addActionListener(br8);
-        
+        };
+        b8.addActionListener(br8);
 
         ActionListener atras = new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                InterfazMenu im = new InterfazMenu(nc);
+                InterfazMenu im = new InterfazMenu(nc, cliente, cn);
                 im.setVisible(true);
 
             }

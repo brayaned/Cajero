@@ -103,7 +103,7 @@ public class Ventana extends JFrame {
                 int h = 0;
                 h = tr.verificarCuenta(h, cn, cliente, nc);
                 if(h!=0){
-                    InterfazMenu im=new InterfazMenu(nc);
+                    InterfazMenu im=new InterfazMenu(nc, cliente, cn);
                     setVisible(false);
                     im.setVisible(true);
                 }else{

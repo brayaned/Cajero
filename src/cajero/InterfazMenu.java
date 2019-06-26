@@ -12,25 +12,27 @@ public class InterfazMenu extends JFrame {
     JButton bconsultar = new JButton();
     JButton bretirar = new JButton();
     JButton btransfer = new JButton();
-    JButton b2 = new JButton();
-    JButton b3 = new JButton();
     String nc;
+    Cliente cl = new Cliente();
+    Cuenta cn = new Cuenta();
 
-    public InterfazMenu(String nC) {
+    public InterfazMenu(String nC, Cliente cL, Cuenta cN) {
         setSize(700, 500);
         setTitle("Cajero- Menu");
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        iniciarComponentes();
+        
         nc = nC;
+        cl = cL;
+        cn = cN;
+        iniciarComponentes();
     }
 
     private void iniciarComponentes() {
         iniciarPaneles();
         iniciarBotones();
         iniciarLabels();
-
     }
 
     private void iniciarPaneles() {
@@ -57,22 +59,11 @@ public class InterfazMenu extends JFrame {
         btransfer.setText("Transferencia");
         btransfer.setFont(new Font("Impact", Font.PLAIN, 15));
         panel.add(btransfer);
-        
-        
-        b2.setText("Atras");
-        b2.setBounds(80, 400, 100, 25);
-        b2.setFont(new Font("Impact", Font.PLAIN, 18));
-        panel.add(b2);
-
-        b3.setText("Finalizar");
-        b3.setBounds(550, 400, 100, 25);
-        b3.setFont(new Font("Impact", Font.PLAIN, 18));
-        panel.add(b3);
 
         ActionListener alconsultar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InterfazConsulta ic = new InterfazConsulta(nc);
+                InterfazConsulta ic = new InterfazConsulta(nc, cl, cn);
                 setVisible(false);
                 ic.setVisible(true);
             }
@@ -82,7 +73,7 @@ public class InterfazMenu extends JFrame {
         ActionListener alretirar = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InterfazRetiro ir = new InterfazRetiro(nc);
+                InterfazRetiro ir = new InterfazRetiro(nc, cl, cn);
                 setVisible(false);
                 ir.setVisible(true);
 
@@ -93,32 +84,9 @@ public class InterfazMenu extends JFrame {
         ActionListener altransfer = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InterfazTransfer it= new InterfazTransfer(nc);
-                it.setVisible(true);                setVisible(false);
             }
         };
         btransfer.addActionListener(altransfer);
-
-        ActionListener atras = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent q) {
-                setVisible(false);
-                Ventana im = new Ventana();
-                im.setVisible(true);
-
-            }
-        };
-        b2.addActionListener(atras);
-
-        ActionListener finalizar = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        };
-        b3.addActionListener(finalizar);
 
     }
 
@@ -129,10 +97,10 @@ public class InterfazMenu extends JFrame {
         labelc.setText("Cliente:");
         labelc.setFont(new Font("Impact", Font.BOLD, 20));
         panel.add(labelc);
-        Cliente c=new Cliente();
+
         JLabel cliente = new JLabel();
-        cliente.setBounds(250, 120, 120, 20);
-        cliente.setText(c.getNombre());
+        cliente.setBounds(250, 120, 200, 20);
+        cliente.setText("-" + cl.getNombre());
         cliente.setFont(new Font("Impact", Font.BOLD, 20));
         panel.add(cliente);
 
@@ -141,10 +109,10 @@ public class InterfazMenu extends JFrame {
         labelcu.setText("No. Cuenta");
         labelcu.setFont(new Font("Impact", Font.BOLD, 20));
         panel.add(labelcu);
-        Cuenta cu=new Cuenta();
+
         JLabel cuenta = new JLabel();
-        cuenta.setBounds(250, 160, 120, 20);
-        cuenta.setText(cu.getNumeroCuenta());
+        cuenta.setBounds(250, 160, 200, 20);
+        cuenta.setText("-" + cl.getNumeroCuenta());
         cuenta.setFont(new Font("Impact", Font.BOLD, 20));
         panel.add(cuenta);
 

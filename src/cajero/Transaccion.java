@@ -62,12 +62,12 @@ public class Transaccion {
             ResultSet result = st.executeQuery(sql);
             while (result.next()) {
                 if (nCuenta.equals(result.getString(2))) {
-                    if (clave != result.getInt(3)) {
-                        
+                    if (clave != result.getInt(1)) {
+                     
                         i++;
                     } else {
                         System.out.println("Proceso realizado correctamente\n");
-                        i = 6;
+                        i = -1;
                     }
                 }
             }
@@ -142,7 +142,7 @@ public class Transaccion {
             while (result.next()) {
                 if ("2929".equals(result.getString(1))) {
                     total = result.getInt(3) - monto;
-                    ps = con.prepareStatement("UPDATE Cajero SET saldo='" + total + "'");
+                    ps = con.prepareStatement("UPDATE Cajero SET saldoCajero='" + total + "'");
                 }
                 ps.executeUpdate();
             }
