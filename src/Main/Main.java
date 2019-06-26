@@ -2,11 +2,11 @@ package Main;
 
 import cajero.Banco;
 import cajero.Cliente;
-import cajero.Conexion;
+import cajero.BD.Conexion;
 import cajero.Cuenta;
 import cajero.Tarjeta;
 import cajero.Transaccion;
-import cajero.Ventana;
+import cajero.Vista.Ventana;
 import java.util.Scanner;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,7 +36,7 @@ public class Main {
         int clave, monto = 0, j = 0, h = 0;
         Ventana v = new Ventana();
         v.setVisible(true);
-
+        /*
         while (h == 0) {
             System.out.println("Ingrese el numero de la tarjeta asociada a su cuenta");
             nCuenta = sc.nextLine();
@@ -161,7 +161,7 @@ public class Main {
                 System.out.println("Saldo disponible: " + sal);
                 System.out.println("Fecha: " + convertido);
                 break;
-        }
+        }*/
 
     }
 }

@@ -9,17 +9,6 @@ public class Banco {
 
     }
 
-    public void bloquearTarjeta() {
-
-    }
-
-    public void getCajero() {
-
-    }
-
-    public void setDinero() {
-
-    }
 
     public String getNombreBanco() {
         return nombreBanco;
