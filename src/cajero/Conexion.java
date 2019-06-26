@@ -6,9 +6,9 @@ public class Conexion {
 
     Connection conexion;
     public Connection realziarConexion() {
-        String url = "jdbc:postgresql://localhost:5432/cajero";
+        String url = "jdbc:postgresql://localhost:5432/Cajero";
         String usuario = "postgres";
-        String pass = "1234";
+        String pass = "postgres2019";
         try {
             Class.forName("org.postgresql.Driver");
             conexion = DriverManager.getConnection(url, usuario, pass);
